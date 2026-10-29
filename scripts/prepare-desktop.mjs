@@ -11,6 +11,7 @@ import {
 } from "node:fs/promises";
 import path from "node:path";
 import verifyRuntime from "./verify-runtime.cjs";
+import {prepareNextRuntime} from "./prepare-next-runtime.mjs";
 const root = process.cwd(),
   target = path.join(root, ".desktop-resources");
 const pgRoot = process.env.CI_POSTGRES_ROOT || "C:/Program Files/PostgreSQL/18";
@@ -84,6 +85,7 @@ async function verify(folder) {
   }
 }
 await verify(path.join(target, "server"));
+await prepareNextRuntime(root, serverTarget);
 verifyRuntime(path.join(target,"server"));
 const pkg = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
 console.log(
