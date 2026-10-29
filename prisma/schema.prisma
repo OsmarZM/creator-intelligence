@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+model Creator {
+  id        String @id @default(cuid())
+  name      String
+  slug      String @unique
+  createdAt DateTime @default(now())
+  accounts SocialAccount[]
+  posts Post[]
+  sales Sale[]
+  metrics MetricRecord[]
+  imports ImportBatch[]
+  dashboards Dashboard[]
+  @@map("creators")
+}
+model SocialAccount {
+  id String @id @default(cuid())
+  creatorId String
+  creator Creator @relation(fields: [creatorId], references: [id])
+  platform String
+  handle String
+  posts Post[]
+  @@unique([creatorId, platform, handle])
+  @@map("social_accounts")
+}
+model Post {
+  id String @id @default(cuid())
+  creatorId String
+  creator Creator @relation(fields: [creatorId], references: [id])
+  accountId String?
+  account SocialAccount? @relation(fields: [accountId], references: [id])
+  title String
+  url String?
+  campaign String?
+  publishedAt DateTime
+  @@index([creatorId, publishedAt])
+  @@map("posts")
+}
+model Sale {
+  id String @id @default(cuid())
+  creatorId String
+  creator Creator @relation(fields: [creatorId], references: [id])
+  source String
+  externalId String
+  date DateTime @db.Date
+  amount Decimal @db.Decimal(18, 2)
+  currency String @default("BRL")
+  product String?
+  campaign String?
+  coupon String?
+  status String @default("valid")
+  importId String
+  batch ImportBatch @relation(fields: [importId], references: [id])
+  @@unique([creatorId, source, externalId])
+  @@index([creatorId, date])
+  @@map("sales")
+}
+model MetricRecord {
+  id String @id @default(cuid())
+  creatorId String
+  creator Creator @relation(fields: [creatorId], references: [id])
+  metric String
+  kind String
+  value Decimal @db.Decimal(18, 4)
+  startDate DateTime @db.Date
+  endDate DateTime @db.Date
+  entity String
+  source String
+  importId String
+  batch ImportBatch @relation(fields: [importId], references: [id])
+  @@unique([creatorId, metric, kind, startDate, endDate, entity, source])
+  @@index([creatorId, metric, endDate])
+  @@map("metric_records")
+}
+model ImportBatch {
+  id String @id @default(cuid())
+  creatorId String
+  creator Creator @relation(fields: [creatorId], references: [id])
+  filename String
+  storagePath String?
+  hash String
+  status String @default("pending")
+  createdAt DateTime @default(now())
+  confirmedAt DateTime?
+  changes PendingChange[]
+  sales Sale[]
+  metrics MetricRecord[]
+  @@unique([creatorId, hash])
+  @@map("imports")
+}
+model PendingChange {
+  id String @id @default(cuid())
+  importId String
+  batch ImportBatch @relation(fields: [importId], references: [id])
+  row Int
+  type String
+  classification String
+  payload Json
+  previous Json?
+  targetId String?
+  reason String?
+  status String @default("pending")
+  @@map("pending_changes")
+}
+model AuditLog {
+  id String @id @default(cuid())
+  importId String
+  entity String
+  entityId String
+  operation String
+  before Json?
+  after Json
+  createdAt DateTime @default(now())
+  @@index([importId])
+  @@map("audit_logs")
+}
+model Dashboard {
+  id String @id @default(cuid())
+  creatorId String?
+  creator Creator? @relation(fields: [creatorId], references: [id])
+  name String
+  config Json
+  updatedAt DateTime @updatedAt
+  @@map("dashboards")
+}

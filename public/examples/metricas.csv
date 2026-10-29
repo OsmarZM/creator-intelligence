@@ -1,0 +1,4 @@
+type;metric;kind;value;startDate;endDate;entity;source
+metric;followers;snapshot;1000;2026-10-01;2026-10-01;instagram:perfil-exemplo;exemplo-relatorio
+metric;followers;snapshot;1120;2026-10-20;2026-10-20;instagram:perfil-exemplo;exemplo-relatorio
+metric;views;snapshot;15000;2026-10-20;2026-10-20;instagram:video-exemplo;exemplo-relatorio

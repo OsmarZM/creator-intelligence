@@ -1,0 +1,20 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+src/generated/
+storage/
+*.tsbuildinfo
+test-results/
+.desktop-resources/
+release/
+output/
+.playwright-cli/
+# Historical local qualification reports contain personal paths and business data.
+docs/VALIDATION*.md
+docs/EXCEL-0.5.1.md
+docs/IMPORTACAO-0.6.0.md
+docs/CONVERSATION-0.4.0.md
+docs/HERMES-0.5.0.md
+docs/screenshots/

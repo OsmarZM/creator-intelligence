@@ -1,0 +1,67 @@
+{
+  "name": "creator-intelligence",
+  "version": "0.7.0",
+  "description": "Creator Intelligence — workspace local de inteligência de criadores",
+  "author": "FortaTech",
+  "main": "desktop/main.cjs",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "prisma generate && next build",
+    "start": "next start --hostname 127.0.0.1",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "setup": "pwsh -NoProfile -File scripts/setup.ps1",
+    "desktop:prepare": "node scripts/prepare-desktop.mjs && node scripts/prepare-updater.mjs",
+    "desktop": "electron .",
+    "desktop:build": "npm run build && npm run desktop:prepare && electron-builder --config desktop/builder.cjs --win nsis --publish never",
+    "postinstall": "prisma generate",
+    "desktop:prepare:hermes": "node scripts/prepare-hermes.mjs"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "@radix-ui/react-slot": "^1.5.0",
+    "clsx": "^2.1.1",
+    "csv-parse": "^7.0.3",
+    "dotenv": "^18.0.9",
+    "echarts": "^6.1.0",
+    "electron-updater": "6.8.11",
+    "exceljs": "^4.4.0",
+    "jszip": "3.10.1",
+    "lucide-react": "^1.61.0",
+    "next": "^16.4.3",
+    "pg": "^8.23.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "saxes": "5.0.1",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.7"
+  },
+  "overrides": {
+    "exceljs": {
+      "uuid": "11.1.1"
+    }
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.3",
+    "prisma": "^7.10.1",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  }
+}

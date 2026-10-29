@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self'"
+    />
+    <title>Creator Intelligence</title>
+    <style>
+      body {
+        margin: 0;
+        background: #09090d;
+        color: #faf8ff;
+        font: 15px Arial;
+        display: grid;
+        place-items: center;
+        height: 100vh;
+      }
+      .card {
+        max-width: 540px;
+        padding: 40px;
+      }
+      small {
+        color: #bc96ff;
+        letter-spacing: 3px;
+      }
+      h1 {
+        font-size: 36px;
+        font-weight: 500;
+        letter-spacing: -1px;
+      }
+      p {
+        line-height: 1.8;
+        color: #b6aec6;
+      }
+      .line {
+        height: 3px;
+        background: #281d3c;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+      .line:after {
+        content: "";
+        display: block;
+        width: 35%;
+        height: 100%;
+        background: #a78bfa;
+        animation: load 2s infinite;
+      }
+      @keyframes load {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(400%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <small>SEU WORKSPACE LOCAL</small>
+      <h1>Creator Intelligence</h1>
+      <p id="status">Iniciando o aplicativo…</p>
+      <div class="line"></div>
+      <p>
+        Na primeira abertura, o banco local será preparado. Seus arquivos e
+        configurações permanecem neste computador.
+      </p>
+    </div>
+    <script src="loading.cjs"></script>
+  </body>
+</html>
