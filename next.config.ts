@@ -8,14 +8,12 @@ const config: NextConfig = {
     "/*": ["./node_modules/bluebird/js/release/**/*.js"],
   },
   outputFileTracingExcludes: {
-    // '*' also covers next-server tracing. Match normalized relative paths
-    // early, before Windows absolute-glob handling in the final trace pass.
-    "*": [
-      "**/storage/**",
-      "**/release/**",
-      "**/.desktop-resources/**",
-      "**/output/**",
-      "**/.playwright-cli/**",
+    "/*": [
+      "./storage/**/*",
+      "./release/**/*",
+      "./.desktop-resources/**/*",
+      "./output/**/*",
+      "./.playwright-cli/**/*",
     ],
   },
 };
