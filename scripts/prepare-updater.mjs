@@ -35,9 +35,15 @@ async function locate(name, from) {
     }
   }
 }
-async function copy(name, from, destination, ancestors = []) {
+const copied=new Map();
+async function copy(name, from, destination) {
   const source = await locate(name, from);
-  if (ancestors.includes(source)) return;
+  const metadata = JSON.parse(await readFile(path.join(source,"package.json"),"utf8"));
+  if(copied.has(name)){
+    if(copied.get(name)!==metadata.version)throw new Error(`Versões conflitantes no runtime de atualização: ${name}`);
+    return;
+  }
+  copied.set(name,metadata.version);
   const output = path.join(destination, "node_modules", name);
   await mkdir(path.dirname(output), { recursive: true });
   await cp(source, output, {
@@ -47,11 +53,8 @@ async function copy(name, from, destination, ancestors = []) {
       !path.relative(source, file).split(path.sep).includes("node_modules") &&
       !path.basename(file).startsWith(".env"),
   });
-  const metadata = JSON.parse(
-    await readFile(path.join(source, "package.json"), "utf8"),
-  );
   for (const dependency of Object.keys(metadata.dependencies ?? {}))
-    await copy(dependency, source, output, [...ancestors, source]);
+    await copy(dependency, source, destination);
 }
 await writeFile(
   path.join(target, "package.json"),

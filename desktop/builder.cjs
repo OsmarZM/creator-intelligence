@@ -61,6 +61,7 @@ module.exports = {
       to: "updater",
       filter: ["**/*", "!**/.env", "!**/.env.*"],
     },
+    {from:".desktop-resources/updater/node_modules",to:"updater/node_modules",filter:["**/*"]},
     { from: "runtime/hermes_bridge.py", to: "runtime/hermes_bridge.py" },
     {
       from: ".desktop-resources/hermes",
