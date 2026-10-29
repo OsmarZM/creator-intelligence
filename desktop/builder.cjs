@@ -90,6 +90,9 @@ module.exports = {
     icon: "desktop/icon.ico",
     target: [{ target: "nsis", arch: ["x64"] }],
     signAndEditExecutable: true,
+    // Keep icon/version editing on unsigned builds without walking every
+    // bundled third-party executable looking for a signing certificate.
+    signExecutable: process.env.CI_SIGN_WINDOWS === "1",
   },
   publish: [
     {

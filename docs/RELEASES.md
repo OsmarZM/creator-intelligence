@@ -26,4 +26,6 @@ O repositório público recebe código, exemplos fictícios e instalador. Banco,
 
 Nunca publique somente o EXE: o atualizador precisa de `latest.yml`. Nunca sobrescreva uma versão publicada com outro binário; gere uma versão maior. O updater usa apenas releases estáveis e não permite downgrade. Os instaladores atuais não têm assinatura digital. Um manifesto de checksum protege a integridade do download, sem substituir uma assinatura de código.
 
+Os builds locais desabilitam somente a assinatura, preservando ícone e versão do executável. Para uma distribuição assinada, configure o certificado no ambiente de build e habilite `CI_SIGN_WINDOWS=1`.
+
 Referência: https://www.electron.build/v26/docs/features/auto-update/
