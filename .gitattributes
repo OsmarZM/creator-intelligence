@@ -1,3 +1,5 @@
 * text=auto eol=lf
 *.png binary
 *.ico binary
+# Applied migrations are checksummed byte for byte; never normalize their EOL.
+prisma/migrations/**/*.sql -text
