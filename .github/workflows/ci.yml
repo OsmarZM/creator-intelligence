@@ -13,6 +13,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: node scripts/check-public-source.mjs
       - run: npm run typecheck
       - run: npm run lint
       - run: npx tsx --test --test-concurrency=1 tests/*.test.ts

@@ -18,7 +18,7 @@ O repositório público recebe código, exemplos fictícios e instalador. Banco,
 
 ## Publicar uma versão
 
-1. Atualize a versão do `package.json` e lock com `npm version ... --no-git-tag-version`. Mantenha a versão do preload correspondente.
+1. Atualize a versão do `package.json` e lock com `npm version ... --no-git-tag-version`. Mantenha a versão do preload correspondente. Confira os arquivos selecionados com `node scripts/check-public-source.mjs`; capturas e relatórios locais não são publicados.
 2. Execute lint, typecheck, testes e qualificação visual. Prepare Hermes/Python conforme `DESKTOP.md` no ambiente de build.
 3. Gere o backend e os runtimes: `npm run build`, `npm run desktop:prepare`.
 4. Execute `npx electron-builder --config desktop/builder.cjs --win nsis --publish never`.
