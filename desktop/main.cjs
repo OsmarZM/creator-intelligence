@@ -73,7 +73,9 @@ async function start() {
     ? process.resourcesPath
     : path.join(__dirname, "../.desktop-resources");
   const serverRoot = path.join(resourceRoot, "server");
+  const showWindow=!(process.env.CI_DESKTOP_DIAGNOSTICS==="1"&&process.env.CI_DESKTOP_HEADLESS==="1");
   window = new BrowserWindow({
+    show:showWindow,
     width: 1440,
     height: 940,
     minWidth: 1000,
@@ -94,7 +96,7 @@ async function start() {
       window.webContents.send("ci:status", text);
   };
   await window.loadFile(path.join(__dirname, "loading.html"));
-  window.show();
+  if(showWindow)window.show();
   const session = window.webContents.session;
   session.setPermissionRequestHandler((_contents, _permission, callback) =>
     callback(false),
@@ -262,6 +264,7 @@ async function start() {
       "CI_DESKTOP_READY",
       JSON.stringify({ origin, userData, version: app.getVersion() }),
     );
+    console.log("CI_UPDATE_STATE",JSON.stringify(updates.snapshot()));
     if (process.env.CI_CHECK_UPDATES === "1") {
       updates.subscribe((state) =>
         console.log("CI_UPDATE_STATE", JSON.stringify(state)),
